@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="BarraTool.ComandosExternos.PontoAPontoBLinha"
+             x:Name="_pontoAPontoBLinha"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BarraTool.ComandosExternos"
+             xmlns:local2="clr-namespace:BarraTool.Unidades"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="400">
+    <UserControl.Resources>
+        <local:TransformInverter x:Key="TransformInverter"/>
+    </UserControl.Resources>
+    <Canvas x:Name="CanvasPontoAPontoB" Width="0" Height="0">
+        <Line x:Name="Linha" X1="{Binding Path=PontoA.X, Mode=TwoWay}" Y1="{Binding Path=PontoA.Y, Mode=TwoWay}" 
+              X2="{Binding Path=PontoB.X, Mode=TwoWay}" Y2="{Binding Path=PontoB.Y, Mode=TwoWay}" 
+              Stroke="Red" StrokeDashArray="5, 1"/>
+        <StackPanel x:Name="stackPanel" Orientation="Vertical" 
+                    Canvas.Left="{Binding Path=PosicaoTextBoxX, Mode=OneWay}" 
+                    Canvas.Top="{Binding Path=PosicaoTextBoxY, Mode=OneWay}"
+                    LayoutTransform="{Binding Path=EscalaDoDesenho, Converter={StaticResource TransformInverter}}">
+            <TextBox x:Name="TextBoxA" Text="{Binding Path=DeltaXVisual, Mode=TwoWay}" Width="50" Height="18"/>
+            <TextBox x:Name="TextBoxB" Text="{Binding Path=DeltaYVisual, Mode=TwoWay}" Width="50" Height="18"/>
+        </StackPanel>
+        <Path x:Name="Cirulo1">
+            <Path.Fill>
+                <SolidColorBrush Color="Red"/>
+            </Path.Fill>
+            <Path.Data>
+                <EllipseGeometry x:Name="C1" Center="{Binding Path=PontoA}" RadiusX="1.5" RadiusY="1.5"/>
+            </Path.Data>
+        </Path>
+        <Path x:Name="Cirulo2">
+            <Path.Fill>
+                <SolidColorBrush Color="Red"/>
+            </Path.Fill>
+            <Path.Data>
+                <EllipseGeometry x:Name="C2" Center="{Binding Path=PontoB}" RadiusX="1.5" RadiusY="1.5"/>
+            </Path.Data>
+        </Path>
+    </Canvas>
+</UserControl>

@@ -1,0 +1,107 @@
+﻿<Window x:Class="BarraTool.PréProcessador.Materiais.JanelaInserirMaterial"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BarraTool.PréProcessador.Materiais"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Inserir Novo Material" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Dictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label Content="Nome" Width="60"/>
+            <TextBox Width="100" Text="{Binding Path=Nome}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Label Content="Cor" Width="60"/>
+            <xctk:ColorPicker x:Name="ColorPicker" Width="100" SelectedColor="Aqua"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Label Content="E" Grid.Row="0" Grid.Column="0" Width="60"/>
+            <TextBox Width="100" Grid.Row="0" Grid.Column="1" Style="{StaticResource textBoxInError}">
+                <TextBox.Text>
+                    <Binding Path="MóduloDeElasticidade"
+                         ValidatesOnExceptions="True"
+                         UpdateSourceTrigger="LostFocus">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}²">
+                        <Binding Path="ManipuladorDeUnidades.ForçaKey" />
+                        <Binding Path="ManipuladorDeUnidades.ComprimentoKey" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Label Content="ν" Grid.Row="1" Grid.Column="0" Width="60"/>
+            <TextBox Width="100" Grid.Row="0" Grid.Column="1" Style="{StaticResource textBoxInError}">
+                <TextBox.Text>
+                    <Binding Path="CoeficienteDePoisson"
+                         ValidatesOnExceptions="True"
+                         UpdateSourceTrigger="LostFocus">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <Label Content="ρ" Grid.Row="0" Grid.Column="0" Width="60"/>
+            <TextBox Width="100" Grid.Row="0" Grid.Column="1" Style="{StaticResource textBoxInError}">
+                <TextBox.Text>
+                    <Binding Path="Densidade"
+                         ValidatesOnExceptions="True"
+                         UpdateSourceTrigger="LostFocus">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}³">
+                        <Binding Path="ManipuladorDeUnidades.MassaKey" />
+                        <Binding Path="ManipuladorDeUnidades.ComprimentoKey" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="5" Orientation="Horizontal">
+            <Label Content="α" Grid.Row="0" Grid.Column="0" Width="60"/>
+            <TextBox Width="100" Grid.Row="0" Grid.Column="1" Style="{StaticResource textBoxInError}">
+                <TextBox.Text>
+                    <Binding Path="CoeficienteDeDilataçãoTérmica"
+                         ValidatesOnExceptions="True"
+                         UpdateSourceTrigger="LostFocus">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}/{0}">
+                        <Binding Path="ManipuladorDeUnidades.TemperaturaKey" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+        <Grid Grid.Row="6">
+            <Button Content="Inserir" HorizontalAlignment="Left" Margin="5" Click="Button_Click"/>
+            <Button Content="Cancelar" HorizontalAlignment="Right" Margin="5" Click="Button_Click_1"/>
+        </Grid>
+    </Grid>
+</Window>

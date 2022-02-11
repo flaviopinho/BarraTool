@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="ButtonComandos" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Background" Value="#ADB9CA" />
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
+    <Style x:Key="ButtonComandos2" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Background" Value="#ADB9CA" />
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+    <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip"
+        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

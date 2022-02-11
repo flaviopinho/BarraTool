@@ -1,0 +1,189 @@
+﻿<Window x:Class="BarraTool.MainWindow"
+        x:Name="BarraToolJanela"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BarraTool"
+        xmlns:OV="clr-namespace:BarraTool.PréProcessador"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoEsc}" Key="Esc" />
+        <KeyBinding Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoEnter}" Key="Enter" />
+        <KeyBinding Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoVoltar}" Key="Z" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoRefazer}" Key="Y" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoDeletar}" Key="Delete"/>
+    </Window.InputBindings>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Iniciar"/>
+            <MenuItem Header="Inserir">
+                <MenuItem Header="Seção" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoInserirSeção}"/>
+                <MenuItem Header="Material" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoInserirMaterial}"/>
+                <MenuItem Header="Carregamento" Click="MenuItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="Editar">
+                <MenuItem Header="Casos" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoEditarCasos}"/>
+                <MenuItem Header="Carregamentos"/>
+            </MenuItem>
+            <MenuItem Header="Opções">
+                <MenuItem Header="Visualização" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoOpçõesVisuais}"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#E7E6E6">
+            <Button x:Name="ButtonVoltar" Style="{StaticResource ButtonComandos}" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoVoltar}" Content="&lt;"/>
+            <Button x:Name="ButtonRefazer" Style="{StaticResource ButtonComandos}" Content="&gt;" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoRefazer}"/>
+            <Button x:Name="ButtonInserirNo" Style="{StaticResource ButtonComandos}" Content="Nó" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoInserirNó}" />
+            <Button x:Name="ButtonInserirElementoVisual" Style="{StaticResource ButtonComandos}" Content="Elemento" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoInserirElemento}"/>
+            <Button x:Name="ButtonMover" Style="{StaticResource ButtonComandos}" Content="Mover" 
+                          Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoMoverObjetoVisual}" />
+            <ToggleButton x:Name="ButtonOrtogonal" Content="Orto" Style="{StaticResource ButtonComandos2}"
+                          IsChecked="{Binding ElementName=ModeloPrincipal, Path=Ortogonal, Mode=TwoWay }"
+                          IsEnabled="{Binding ElementName=ModeloPrincipal, Path=HabilitarComandos, Mode=TwoWay}"/>
+            <Button x:Name="ZoomTudo" Style="{StaticResource ButtonComandos}" Content="Zoom global" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoZoomTotal}"/>
+            <Button x:Name="ZoomJanela" Style="{StaticResource ButtonComandos}" Content="Zoom janela" Command="{Binding ElementName=ModeloPrincipal, Path=ComandoExternoZoomDoisPontos}"/>
+            
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <OV:ModeloVisual x:Name="ModeloPrincipal" Grid.Column="0">
+                <ScrollViewer local:AutoScrollBehavior.AutoScroll="True" Margin="10" VerticalAlignment="Bottom" Height="30" CanContentScroll="True" >
+                    <Border Background="AliceBlue">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding ElementName=ModeloPrincipal, Path=ComandosInternos.LogDeComandos}"/>
+                    </Border>
+                </ScrollViewer>
+            </OV:ModeloVisual>
+            <TabControl Grid.Column="1" TabStripPlacement="Left" Background="#E7E6E6">
+                <TabItem Margin="0">
+                    <TabItem.Header>
+                        <TextBlock Text="Nós e elementos" MouseLeftButtonDown="TabItem_MouseUp">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0">Lista</Label>
+                        <Border Grid.Row="1" BorderBrush="#BFBFBF" BorderThickness="1" Margin="5">
+                            <ScrollViewer Margin="5">
+                                <OV:ÁrvoreDeNósEElementos ModeloVisual="{x:Reference Name=ModeloPrincipal}"/>
+                            </ScrollViewer>
+                        </Border>
+                        <Label Grid.Row="2">Propriedades</Label>
+                        <Border Grid.Row="3" BorderBrush="#BFBFBF" BorderThickness="1" Margin="5">
+                            <ScrollViewer  Margin="5">
+                                <ItemsControl ItemsSource="{Binding ElementName=ModeloPrincipal, Path=JanelaDePropriedadesDosNósEElementos}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem  Margin="0">
+                    <TabItem.Header>
+                        <TextBlock Text="Materiais e seções" MouseLeftButtonDown="TabItem_MouseUp">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0">Lista</Label>
+                        <Border Grid.Row="1" BorderBrush="#BFBFBF" BorderThickness="1" Margin="5">
+                            <ScrollViewer Margin="5">
+                                <OV:ÁrvoreDeMateriaisESeções ModeloVisual="{x:Reference Name=ModeloPrincipal}"/>
+                            </ScrollViewer>
+                        </Border>
+                        <Label Grid.Row="2">Propriedades</Label>
+                        <Border Grid.Row="3" BorderBrush="#BFBFBF" BorderThickness="1" Margin="5">
+                            <ScrollViewer  Margin="5">
+                                <ItemsControl ItemsSource="{Binding ElementName=ModeloPrincipal, Path=JanelaDePropriedadesDosMateriaisESeções}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem  Margin="0">
+                    <TabItem.Header>
+                        <TextBlock Text="Carregamentos e apoios" MouseLeftButtonDown="TabItem_MouseUp">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0">Lista</Label>
+                        <Border Grid.Row="1" BorderBrush="#BFBFBF" BorderThickness="1" Margin="5">
+                            <ScrollViewer Margin="5">
+                                <OV:ÁrvoreDeCarregamentos ModeloVisual="{x:Reference Name=ModeloPrincipal}"/>
+                            </ScrollViewer>
+                        </Border>
+                        <Label Grid.Row="2">Propriedades</Label>
+                        <Border Grid.Row="3" BorderBrush="#BFBFBF" BorderThickness="1" Margin="5">
+                            <ScrollViewer  Margin="5">
+                                <ItemsControl ItemsSource="{Binding ElementName=ModeloPrincipal, Path=JanelaDePropriedadesDosCarregamentos}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right">
+            <ComboBox ItemsSource="{Binding ElementName=ModeloPrincipal, Path=Carregamentos.Casos , Mode=OneWay}"
+                          SelectedItem="{Binding ElementName=ModeloPrincipal, Path=Carregamentos.CasoAtual, Mode=TwoWay}"
+                          DisplayMemberPath="Nome"></ComboBox>
+            <ComboBox x:Name="ComboBoxUnidadeDeForça" Width="50" 
+                  HorizontalAlignment="Right" 
+                  IsEnabled="{Binding ElementName=ModeloPrincipal, Path=HabilitarComandos, Mode=OneWay }"
+                  ItemsSource="{Binding ElementName=ModeloPrincipal, Path=ManipuladorDeUnidades.Forças}"
+                  SelectedIndex="{Binding ElementName=ModeloPrincipal, Path=ManipuladorDeUnidades.ForçaÍndice, Mode=TwoWay}" />
+            <ComboBox x:Name="ComboBoxUnidadeDeComprimento" Width="50" 
+                  HorizontalAlignment="Right" 
+                  IsEnabled="{Binding ElementName=ModeloPrincipal, Path=HabilitarComandos, Mode=OneWay }"
+                  ItemsSource="{Binding ElementName=ModeloPrincipal, Path=ManipuladorDeUnidades.Comprimentos}"
+                  SelectedIndex="{Binding ElementName=ModeloPrincipal, Path=ManipuladorDeUnidades.ComprimentoÍndice, Mode=TwoWay}" />
+            <ComboBox x:Name="ComboBoxUnidadeDeMassa" Width="50" 
+                  HorizontalAlignment="Right" 
+                  IsEnabled="{Binding ElementName=ModeloPrincipal, Path=HabilitarComandos, Mode=OneWay }"
+                  ItemsSource="{Binding ElementName=ModeloPrincipal, Path=ManipuladorDeUnidades.Massas}"
+                  SelectedIndex="{Binding ElementName=ModeloPrincipal, Path=ManipuladorDeUnidades.MassaÍndice, Mode=TwoWay}" />
+            <ComboBox x:Name="ComboBoxUnidadeDeTemperatura" Width="50" 
+                  HorizontalAlignment="Right" 
+                  IsEnabled="{Binding ElementName=ModeloPrincipal, Path=HabilitarComandos, Mode=OneWay }"
+                  ItemsSource="{Binding ElementName=ModeloPrincipal, Path=ManipuladorDeUnidades.Temperaturas}"
+                  SelectedIndex="{Binding ElementName=ModeloPrincipal, Path=ManipuladorDeUnidades.TemperaturaÍndice, Mode=TwoWay}" />
+        </StackPanel>
+    </Grid>
+</Window>

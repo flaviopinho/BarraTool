@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="BarraTool.PréProcessador.Seções.PropriedadesDasSeções"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BarraTool.PréProcessador.Elementos"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Nome" Width="100"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Cor"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Material"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="N. Elm. Apl."/>
+            <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding Path=Nome, Mode=TwoWay}"/>
+            <xctk:ColorPicker Grid.Row="1" Grid.Column="1" Width="100" SelectedColor="{Binding Path=Cor}"/>
+            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Path=ModeloVisual.Modelo.Materiais}"
+                      DisplayMemberPath="Nome" SelectedValue="{Binding Path=Material, Mode=TwoWay}">
+            </ComboBox>
+            <TextBox Grid.Row="3" Grid.Column="1" Width="100" Text="{Binding Path=Seção.ElementosConectados.Count, Mode=OneWay, UpdateSourceTrigger=Default}" IsEnabled="False"/>
+        </Grid>
+        <Label Grid.Row="1" Content="{Binding Path=Seção.GeometriaDaSeção.TipoDeSeção}"/>
+        <Grid Grid.Row="2" x:Name="PropriedadesGeométricas"/>
+        <Button Grid.Row="3" Width="120" Content="Selecionar Elementos" Click="SelecionarElementos_Click"/>
+        <Button Grid.Row="4" Width="120" Content="Aplicar Seção" Click="AplicarSeção_Click"/>
+        <Button Grid.Row="5" Width="120" Content="Excluir Seção" Click="ExcluirSeção_Click"/>
+    </Grid>
+</UserControl>

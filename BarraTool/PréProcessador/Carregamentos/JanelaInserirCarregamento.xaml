@@ -1,0 +1,92 @@
+﻿<Window x:Class="BarraTool.PréProcessador.Carregamentos.JanelaInserirCarregamento"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BarraTool.PréProcessador.Carregamentos"
+        mc:Ignorable="d"
+        Title="Inserir Carregamento" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Dictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+            <TabItem Header="Carregamentos Nodais"></TabItem>
+            <TabItem Header="Carregamentos nos elementos" IsSelected="True">
+                <TabControl>
+                    <TabItem Header="Carregamento uniformemente distribuído">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Carga X"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Carga Y"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Sistema local"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Sistema global"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=ManipuladorDeUnidades.CargaDistribuidaKey}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=ManipuladorDeUnidades.CargaDistribuidaKey}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Width="100" Style="{StaticResource textBoxInError}">
+                                <TextBox.Text>
+                                    <Binding Path="DistribuidoCargaX"
+                                             ValidatesOnExceptions="True"
+                                             UpdateSourceTrigger="LostFocus"/>
+                                </TextBox.Text>
+                            </TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="1" Width="100" Style="{StaticResource textBoxInError}">
+                                <TextBox.Text>
+                                    <Binding Path="DistribuidoCargaY"
+                                             ValidatesOnExceptions="True"
+                                             UpdateSourceTrigger="LostFocus"/>
+                                </TextBox.Text>
+                            </TextBox>
+                            <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Path=DistribuidoSistemaLocal, Mode=TwoWay}"/>
+                            <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Path=DistribuidoSistemaGlobal, Mode=TwoWay}"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+            <ComboBox ItemsSource="{Binding ModeloVisual.Carregamentos.Casos}" SelectedItem="{Binding Caso}" DisplayMemberPath="Nome"></ComboBox>
+            <ComboBox x:Name="ComboBoxUnidadeDeForça" Width="50" 
+                  HorizontalAlignment="Right"
+                  ItemsSource="{Binding Path=ManipuladorDeUnidades.Forças}"
+                  SelectedIndex="{Binding Path=ManipuladorDeUnidades.ForçaÍndice, Mode=TwoWay}" />
+            <ComboBox x:Name="ComboBoxUnidadeDeComprimento" Width="50" 
+                  HorizontalAlignment="Right"
+                  ItemsSource="{Binding Path=ManipuladorDeUnidades.Comprimentos}"
+                  SelectedIndex="{Binding Path=ManipuladorDeUnidades.ComprimentoÍndice, Mode=TwoWay}" />
+            <ComboBox x:Name="ComboBoxUnidadeDeMassa" Width="50" 
+                  HorizontalAlignment="Right" 
+                  ItemsSource="{Binding Path=ManipuladorDeUnidades.Massas}"
+                  SelectedIndex="{Binding Path=ManipuladorDeUnidades.MassaÍndice, Mode=TwoWay}" />
+            <ComboBox x:Name="ComboBoxUnidadeDeTemperatura" Width="50" 
+                  HorizontalAlignment="Right" 
+                  ItemsSource="{Binding Path=ManipuladorDeUnidades.Temperaturas}"
+                  SelectedIndex="{Binding Path=ManipuladorDeUnidades.TemperaturaÍndice, Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button HorizontalAlignment="Left">Cancelar</Button>
+            <Button HorizontalAlignment="Right" Click="Inserir_Click">Inserir</Button>
+        </StackPanel>
+    </Grid>
+</Window>

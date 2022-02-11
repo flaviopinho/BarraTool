@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="BarraTool.PréProcessador.Carregamentos.PropriedadesDoCarregamentoDistribuido"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BarraTool.PréProcessador.Carregamentos"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Width="100" Content="Nome"/>
+            <Label Grid.Row="1" Grid.Column="0" Width="100" Content="Tipo"/>
+            <Label Grid.Row="2" Grid.Column="0" Width="100" Content="Caso"/>
+            <Label Grid.Row="3" Grid.Column="0" Width="100" Content="Carga X"/>
+            <Label Grid.Row="4" Grid.Column="0" Width="100" Content="Carga Y"/>
+            <Label Grid.Row="5" Grid.Column="0" Content="Sistema local"/>
+            <Label Grid.Row="6" Grid.Column="0" Content="Sistema global"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding Path=Nome}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Width="100" IsEnabled="False" Text="Uniforme"/>
+            <ComboBox Grid.Row="2" Grid.Column="1" Width="100"
+                  ItemsSource="{Binding Path=ModeloVisual.Carregamentos.Casos}"
+                  SelectedValue="{Binding Path=Caso}"
+                  DisplayMemberPath="Nome"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Width="100" Text="{Binding Path=CargaX}"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Width="100" Text="{Binding Path=CargaY}"/>
+            <TextBlock Grid.Row="3" Grid.Column="2">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}">
+                        <Binding Path="ManipuladorDeUnidades.ForçaKey" />
+                        <Binding Path="ManipuladorDeUnidades.ComprimentoKey" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBlock Grid.Row="4" Grid.Column="2">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}">
+                        <Binding Path="ManipuladorDeUnidades.ForçaKey" />
+                        <Binding Path="ManipuladorDeUnidades.ComprimentoKey" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Path=SistemaLocal}" VerticalAlignment="Center"/>
+            <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Path=SistemaGlobal}" VerticalAlignment="Center"/>
+        </Grid>
+        <Button Grid.Row="1" Content="Selecionar elementos" Click="SelecionarElementos_Click"/>
+        <Button Grid.Row="2" Content="Aplicar carregamento" Click="AplicarCarregamento_Click"/>
+        <Button Grid.Row="3" Content="Remover carregamento" Click="RemoverCarregamento_Click"/>
+    </Grid>
+</UserControl>
